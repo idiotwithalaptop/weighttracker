@@ -26,10 +26,13 @@ exitWithMessageOnError "Missing node.js executable, please install node.js, if a
 # Setup
 # -----
 
-SCRIPT_DIR="${BASH_SOURCE[0]%\\*}"
-SCRIPT_DIR="${SCRIPT_DIR%/*}"
+SCRIPT_DIR="$(dirname $0)"
+#SCRIPT_DIR="${BASH_SOURCE[0]%\\*}"
+#SCRIPT_DIR="${SCRIPT_DIR%/*}"
 ARTIFACTS=$SCRIPT_DIR/../artifacts
-KUDU_SYNC_CMD=${KUDU_SYNC_CMD//\"}
+KUDU_SYNC_CMD=kuduSync
+
+echo "WHEEE $KUDU_SYNC_CMD"
 
 if [[ ! -n "$DEPLOYMENT_SOURCE" ]]; then
   DEPLOYMENT_SOURCE=$SCRIPT_DIR
@@ -102,6 +105,11 @@ echo Handling node.js deployment.
 
 # 1. KuduSync
 if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
+  echo "KuduSync CMD: $KUDU_SYNC_CMD"
+  echo "Deployment Source: $DEPLOYMENT_SOURCE/dist"
+  echo "Deployment target: $DEPLOYMENT_TARGET"
+  echo "Next manifest path: $NEXT_MANIFEST_PATH"
+  echo "Previous Manifest Path: $PREVIOUS_MANIFEST_PATH"
   "$KUDU_SYNC_CMD" -v 50 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
   exitWithMessageOnError "Kudu Sync failed"
 fi
