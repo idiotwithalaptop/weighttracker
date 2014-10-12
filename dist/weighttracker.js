@@ -105,15 +105,21 @@ AzureWeightService.prototype.getWeighInsForUser = function(userId, callback) {
 
     tableSvc.queryEntities('weight', query, null, function(error, result, response) {
         if(!error) {
+            var resultList = [];
+
+            for(var i = 0; i < result.entries.length; i++) {
+                var obj = result.entries[i];
+                resultList.push({result: obj.result._, date: obj.date._});
+            }
+
             callback({
                 error: false,
-                result: result.entries
+                result: resultList
             });
         }
         else {
             callback({
                 error: true,
-                result: result,
                 msg: 'Error querying'
             });
         }
