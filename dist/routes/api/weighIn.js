@@ -8,9 +8,11 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:userId', function(req, res) {
-    res.json({
-        message: 'Weigh Ins for ' + req.params.userId,
-        data: data.getWeighInsForUser(req.params.userId)
+    data.getWeighInsForUser(req.params.userId, function(result) {
+        res.json({
+            message: 'Weigh Ins for ' + req.params.userId,
+            data: result
+        });
     });
 });
 

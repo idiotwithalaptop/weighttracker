@@ -98,12 +98,10 @@ AzureWeightService.prototype.insertWeighIn = function(userId, weighin) {
 /**
  * @param {string} userId                    The User who weighed in
  */
-AzureWeightService.prototype.getWeighInsForUser = function(userId) {
+AzureWeightService.prototype.getWeighInsForUser = function(userId, callback) {
     var query = new azure.TableQuery()
         .select(['result','date'])
         .where('PartitionKey eq ?', userId);
-
-    var weighins = {msg: 'Query not called'};
 
     tableSvc.queryEntities('weight', query, null, function(error, result, response) {
         if(!error) {
@@ -112,14 +110,19 @@ AzureWeightService.prototype.getWeighInsForUser = function(userId) {
                 var weighin = new WeighIn(entry.result, entry.date);
                 weighins.push(weighin);
             }*/
-            weighins = result;
+            callback({
+                error: false,
+                result: result
+            });
         }
         else {
-            weighins = 'Error querying';
+            callback({
+                error: true,
+                result: result,
+                msg: 'Error querying'
+            });
         }
     });
-
-    return weighins;
 };
 
 exports.createWeighInService = function() {
@@ -147,9 +150,11 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:userId', function(req, res) {
-    res.json({
-        message: 'Weigh Ins for ' + req.params.userId,
-        data: data.getWeighInsForUser(req.params.userId)
+    data.getWeighInsForUser(req.params.userId, function(result) {
+        res.json({
+            message: 'Weigh Ins for ' + req.params.userId,
+            data: result
+        });
     });
 });
 
