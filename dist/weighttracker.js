@@ -100,6 +100,7 @@ AzureWeightService.prototype.insertWeighIn = function(userId, weighin) {
  */
 AzureWeightService.prototype.getWeighInsForUser = function(userId) {
     var query = new azure.TableQuery()
+        .select(['result','date'])
         .where('PartitionKey eq ?', userId);
 
     var weighins = [];
@@ -142,7 +143,10 @@ router.get('/', function(req, res) {
 });
 
 router.get('/:userId', function(req, res) {
-    res.json(data.getWeighInsForUser(req.params.userId));
+    res.json({
+        message: 'Weigh Ins for ' + req.params.userId,
+        data: data.getWeighInsForUser(req.params.userId)
+    });
 });
 
 router.put('/:userId', function(req, res) {

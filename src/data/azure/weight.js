@@ -38,6 +38,7 @@ AzureWeightService.prototype.insertWeighIn = function(userId, weighin) {
  */
 AzureWeightService.prototype.getWeighInsForUser = function(userId) {
     var query = new azure.TableQuery()
+        .select(['result','date'])
         .where('PartitionKey eq ?', userId);
 
     var weighins = [];
