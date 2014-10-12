@@ -83,7 +83,7 @@ AzureWeightService.prototype.insertWeighIn = function(userId, weighin) {
 
     var azureWeighIn = {
         PartitionKey: entGen.String(userId),
-        RowKey: entGen.String(new Date()),
+        RowKey: entGen.String(Date.now().toISOString()),
         result: entGen.Double(weighin.result),
         date: entGen.DateTime(weighin.date)
     };
