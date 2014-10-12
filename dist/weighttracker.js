@@ -58,6 +58,23 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+;var azure = require('azure-storage');
+var tableSvc = azure.createTableService();
+
+function AzureWeightService() {
+    tableSvc.createTableIfNotExists('weight', function(error, result, response) {
+        if(!error) {
+            // Table exists or created successfully
+
+        }
+    });
+}
+
+AzureWeightService.prototype.getWeighInsForUser = function(userName) {
+
+};
+
+module.exports = AzureWeightService;
 ;var express = require('express');
 var router = express.Router();
 
@@ -76,9 +93,3 @@ router.get('/', function(req, res) {
 });
 
 module.exports = router;
-;var http = require('http');
-var port = process.env.PORT || 1337;
-http.createServer(function(req, res) {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello World\n');
-}).listen(port);
