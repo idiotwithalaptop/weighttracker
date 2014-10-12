@@ -1,5 +1,5 @@
 var azure = require('azure-storage');
-require('../../domain/weighin');
+var WeighIn = require('../../domain/weighin');
 var tableSvc = azure.createTableService();
 var exports = module.exports;
 

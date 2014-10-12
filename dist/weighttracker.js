@@ -61,7 +61,7 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 ;var azure = require('azure-storage');
-require('../../domain/weighin');
+var WeighIn = require('../../domain/weighin');
 var tableSvc = azure.createTableService();
 var exports = module.exports;
 
@@ -122,18 +122,20 @@ exports.createWeighInService = function() {
 };;var date;
 var result;
 
-function WeighIn(resultIn, dateIn) {
+var WeighIn = function(resultIn, dateIn) {
     date = dateIn;
     result = resultIn;
-}
+};
 
 WeighIn.prototype = {
     date : date,
     result : result
-};;var express = require('express');
+};
+
+module.exports = WeighIn;;var express = require('express');
 var router = express.Router();
 var data = require('../../data/azure/weight').createWeighInService();
-require('../../domain/weighin');
+var WeighIn = require('../../domain/weighin');
 
 router.get('/', function(req, res) {
     res.json({message: 'no direct services available'});
