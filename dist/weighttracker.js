@@ -112,10 +112,10 @@ AzureWeightService.prototype.getWeighInsForUser = function(userId) {
                 var weighin = new WeighIn(entry.result, entry.date);
                 weighins.push(weighin);
             }*/
-            return result;
+            weighins = result;
         }
         else {
-            throw new Error('Error querying');
+            weighins = 'Error querying';
         }
     });
 
