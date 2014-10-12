@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d16cff9c-c1e3-402f-bee7-6c122ff10a75" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/routes/api/weighIn.js" afterPath="$PROJECT_DIR$/dist/routes/api/weighIn.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes/api/weighIn.js" afterPath="$PROJECT_DIR$/src/routes/api/weighIn.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/data/azure/weight.js" afterPath="$PROJECT_DIR$/src/data/azure/weight.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/weighttracker.js" afterPath="$PROJECT_DIR$/dist/weighttracker.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/weighttracker.min.js" afterPath="$PROJECT_DIR$/dist/weighttracker.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="weighttracker.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,8 +42,8 @@
       <file leaf-file-name="weight.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/data/azure/weight.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.26923" vertical-offset="377" max-vertical-offset="1095">
-              <caret line="62" column="7" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
+            <state vertical-scroll-proportion="-6.269231" vertical-offset="212" max-vertical-offset="1095">
+              <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -59,8 +62,8 @@
       <file leaf-file-name="weighIn.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes/api/weighIn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.29816514" vertical-offset="0" max-vertical-offset="654">
-              <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.5733945" vertical-offset="0" max-vertical-offset="654">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -577,12 +580,12 @@
       <changelist id="d16cff9c-c1e3-402f-bee7-6c122ff10a75" name="Default" comment="" />
       <created>1413084798891</created>
       <updated>1413084798891</updated>
-      <workItem from="1413084801718" duration="13174000" />
+      <workItem from="1413084801718" duration="13318000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13174000" />
+    <option name="totallyTimeSpent" value="13318000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="997" extended-state="6" />
@@ -668,14 +671,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="291" max-vertical-offset="1020">
-          <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="5197" max-vertical-offset="14055">
@@ -740,6 +735,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="291" max-vertical-offset="1020">
+          <caret line="15" column="30" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/data/azure/weight.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.269231" vertical-offset="212" max-vertical-offset="1095">
+          <caret line="25" column="43" selection-start-line="25" selection-start-column="43" selection-end-line="25" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="225">
@@ -748,18 +759,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/data/azure/weight.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.26923" vertical-offset="377" max-vertical-offset="1095">
-          <caret line="62" column="7" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/api/weighIn.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29816514" vertical-offset="0" max-vertical-offset="654">
-          <caret line="13" column="24" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.5733945" vertical-offset="0" max-vertical-offset="654">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>
