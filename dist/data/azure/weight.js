@@ -41,7 +41,7 @@ AzureWeightService.prototype.getWeighInsForUser = function(userId) {
         .select(['result','date'])
         .where('PartitionKey eq ?', userId);
 
-    var weighins = [];
+    var weighins = {msg: 'Query not called'};
 
     tableSvc.queryEntities('weight', query, null, function(error, result, response) {
         if(!error) {
