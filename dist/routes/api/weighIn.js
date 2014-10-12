@@ -17,7 +17,7 @@ router.get('/:userId', function(req, res) {
 });
 
 router.put('/:userId', function(req, res) {
-    var weighIn = new WeighIn(req.body.result, req.body.date);
+    var weighIn = req.body;
     data.insertWeighIn(req.params.userId, weighIn);
     res.json({message: 'Weigh-In Captured', obj: weighIn});
 });

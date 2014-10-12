@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d16cff9c-c1e3-402f-bee7-6c122ff10a75" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/routes/api/weighIn.js" afterPath="$PROJECT_DIR$/dist/routes/api/weighIn.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/routes/api/weighIn.js" afterPath="$PROJECT_DIR$/src/routes/api/weighIn.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/weighttracker.js" afterPath="$PROJECT_DIR$/dist/weighttracker.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/weighttracker.min.js" afterPath="$PROJECT_DIR$/dist/weighttracker.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="weighttracker.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,8 +58,8 @@
       <file leaf-file-name="weighIn.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes/api/weighIn.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5733945" vertical-offset="0" max-vertical-offset="654">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.4357798" vertical-offset="0" max-vertical-offset="654">
+              <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -580,12 +576,12 @@
       <changelist id="d16cff9c-c1e3-402f-bee7-6c122ff10a75" name="Default" comment="" />
       <created>1413084798891</created>
       <updated>1413084798891</updated>
-      <workItem from="1413084801718" duration="13318000" />
+      <workItem from="1413084801718" duration="13390000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13318000" />
+    <option name="totallyTimeSpent" value="13390000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="997" extended-state="6" />
@@ -761,8 +757,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/api/weighIn.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5733945" vertical-offset="0" max-vertical-offset="654">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.4357798" vertical-offset="0" max-vertical-offset="654">
+          <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
           <folding />
         </state>
       </provider>
