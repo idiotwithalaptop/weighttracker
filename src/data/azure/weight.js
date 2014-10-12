@@ -51,6 +51,9 @@ AzureWeightService.prototype.getWeighInsForUser = function(userId) {
                 weighins.push(weighin);
             }
         }
+        else {
+            throw new Error('Error querying');
+        }
     });
 
     return weighins;
