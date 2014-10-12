@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var weighIns = require('./routes/api/weighIn');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.user('/api/weighIns', weighIns);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -59,7 +61,9 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 ;var azure = require('azure-storage');
+require('../../domain/weighin');
 var tableSvc = azure.createTableService();
+var exports = module.exports;
 
 function AzureWeightService() {
     tableSvc.createTableIfNotExists('weight', function(error, result, response) {
@@ -70,11 +74,82 @@ function AzureWeightService() {
     });
 }
 
-AzureWeightService.prototype.getWeighInsForUser = function(userName) {
+/**
+ * @param {string} userId                    The User who weighed in
+ * @param {WeighIn} weighIn                  The storage access key.
+ */
+AzureWeightService.prototype.insertWeighIn = function(userId, weighin) {
+    var entGen = azure.TableUtilities.entityGenerator;
 
+    var azureWeighIn = {
+        PartitionKey: entGen.String(userId),
+        RowKey: entGen.String(weighin.date),
+        result: entGen.Double(weignin.result),
+        date: entGen.DateTime(weighin.date)
+    };
+
+    tableSvc.insertEntity('weight', azureWeighIn, function(error, result, response) {
+       if(!error) {
+
+       }
+    });
 };
 
-module.exports = AzureWeightService;
+/**
+ * @param {string} userId                    The User who weighed in
+ */
+AzureWeightService.prototype.getWeighInsForUser = function(userId) {
+    var query = new azure.TableQuery()
+        .where('PartitionKey eq ?', userId);
+
+    var weighins = [];
+
+    tableSvc.queryEntities('weight', query, null, function(error, result, response) {
+        if(!error) {
+            for(var i = 0; i < result.entries.length; i++) {
+                var entry = result.entries[i];
+                var weighin = new WeighIn(entry.result, entry.date);
+                weighins.push(weighin);
+            }
+        }
+    });
+
+    return weighins;
+};
+
+exports.createWeighInService = function() {
+    return new AzureWeightService();
+};;var date;
+var result;
+
+function WeighIn(resultIn, dateIn) {
+    date = dateIn;
+    result = resultIn;
+}
+
+WeighIn.prototype = {
+    date : date,
+    result : result
+};;var express = require('express');
+var router = express.Router();
+var data = require('../../data/azure/weight').createWeighInService();
+require('../../domain/weighin');
+
+router.get('/', function(req, res) {
+    res.json({message: 'no direct services available'});
+});
+
+router.get('/:userId', function(req, res) {
+    res.json(data.getWeighInsForUser(req.params.userId));
+});
+
+router.put('/:userId', function(req, res) {
+    var weighIn = new WeighIn(req.body.result, req.body.date);
+    data.insertWeighIn(req.params.userId, weighIn);
+    res.json({message: 'Weigh-In Captured'});
+});
+
+module.exports = router;
 ;var express = require('express');
 var router = express.Router();
 
