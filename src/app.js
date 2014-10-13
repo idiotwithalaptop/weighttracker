@@ -10,7 +10,7 @@ var GoogleStrategy = require('passport-google').Strategy;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var weighIns = require('./routes/api/weighIn');
-var authModule = require('./routes/auth');
+var authModule = require('./routs/auth');
 
 var app = express();
 
