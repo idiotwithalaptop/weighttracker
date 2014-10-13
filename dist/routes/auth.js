@@ -1,3 +1,4 @@
+var express = require('express');
 var passport = require('passport');
 var GoogleStrategy = require('passport-google').Strategy;
 var router = express.Router();

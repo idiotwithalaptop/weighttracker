@@ -10,7 +10,7 @@ var GoogleStrategy = require('passport-google').Strategy;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var weighIns = require('./routes/api/weighIn');
-var authModule = require('./routs/auth');
+var authModule = require('./routes/auth');
 
 var app = express();
 
@@ -184,7 +184,8 @@ router.put('/:userId', function(req, res) {
 });
 
 module.exports = router;
-;var passport = require('passport');
+;var express = require('express');
+var passport = require('passport');
 var GoogleStrategy = require('passport-google').Strategy;
 var router = express.Router();
 
