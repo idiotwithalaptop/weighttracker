@@ -3,6 +3,13 @@ var router = express.Router();
 var data = require('../../data/azure/weight').createWeighInService();
 var WeighIn = require('../../domain/weighin');
 
+router.use(function(req, res, next) {
+    if(!req.session.userId) {
+        res.redirect('/');
+    }
+    next();
+});
+
 router.get('/', function(req, res) {
     res.json({message: 'no direct services available'});
 });

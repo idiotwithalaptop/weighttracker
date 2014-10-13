@@ -19,6 +19,7 @@ router.post('/login', function(req, res) {
 
             plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, response) {
                 if(!err) {
+                    req.session.userId = response.id;
                     res.json({profile : response});
                 }
             });
