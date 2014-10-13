@@ -24,6 +24,11 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// Initialize Passport!  Also use passport.session() middleware, to support
+// persistent login sessions (recommended).
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.use('/', routes);
 app.use('/users', users);
@@ -65,9 +70,7 @@ passport.use(new GoogleStrategy({
         realm: 'http://keepyouhonest.azurewebsites.net/'
     },
     function(identifier, profile, done) {
-        User.findOrCreate({ openId: identifier }, function(err, user) {
-            done(err, user);
-        });
+
     }
 ));
 
