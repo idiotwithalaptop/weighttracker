@@ -10,22 +10,12 @@ var GoogleStrategy = require('passport-google').Strategy;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var weighIns = require('./routes/api/weighIn');
-var authModule = require('./routs/auth');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-passport.use(new GoogleStrategy({
-        returnURL: 'http://keepyouhonest.azurewebsites.net/auth/google/return',
-        realm: 'http://keepyouhonest.azurewebsites.net/'
-    },
-    function(identifier, profile, done) {
-
-    }
-));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -43,7 +33,6 @@ app.use(passport.session());
 app.use('/', routes);
 app.use('/users', users);
 app.use('/api/weighIns', weighIns);
-app.use('/auth', authModule);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -51,6 +40,27 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
+
+
+passport.use(new GoogleStrategy({
+        returnURL: 'http://keepyouhonest.azurewebsites.net/auth/google/return',
+        realm: 'http://keepyouhonest.azurewebsites.net/'
+    },
+    function(identifier, profile, done) {
+
+    }
+));
+
+// Redirect the user to Google for authentication.  When complete, Google
+// will redirect the user back to the application at
+//     /auth/google/return
+app.get('/auth/google', passport.authenticate('google'));
+
+// Google will redirect the user to this URL after authentication.  Finish
+// the process by verifying the assertion.  If valid, the user will be
+// logged in.  Otherwise, authentication has failed.
+app.get('/auth/google/return', passport.authenticate('google', { successRedirect: '/', failureRedirect: '/login' }));
 
 
 // error handlers
