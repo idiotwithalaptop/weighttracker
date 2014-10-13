@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var GoogleStrategy = require('passport-google').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -58,5 +60,25 @@ app.use(function(err, req, res, next) {
     });
 });
 
+passport.use(new GoogleStrategy({
+        returnURL: 'http://keepyouhonest.azurewebsites.net/auth/google/return',
+        realm: 'http://keepyouhonest.azurewebsites.net/'
+    },
+    function(identifier, profile, done) {
+        User.findOrCreate({ openId: identifier }, function(err, user) {
+            done(err, user);
+        });
+    }
+));
+
+// Redirect the user to Google for authentication.  When complete, Google
+// will redirect the user back to the application at
+//     /auth/google/return
+app.get('/auth/google', passport.authenticate('google'));
+
+// Google will redirect the user to this URL after authentication.  Finish
+// the process by verifying the assertion.  If valid, the user will be
+// logged in.  Otherwise, authentication has failed.
+app.get('/auth/google/return', passport.authenticate('google', { successRedirect: '/', failureRedirect: '/login' }));
 
 module.exports = app;
