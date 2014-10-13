@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cookieSession = require('cookie-session');
+var csrf = require('csurf');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
-var weighIns = require('./routes/api/weighIn');
 
 var app = express();
 
@@ -21,11 +21,16 @@ app.use(logger('dev'));
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+// store session state in browser cookie
+app.use(cookieSession({
+    keys: ['iwal1984', 'kyh@$8615']
+}));
+app.use(csrf());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', routes);
-app.use('/users', users);
-app.use('/api/weighIns', weighIns);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -60,7 +65,13 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
-;var azure = require('azure-storage');
+;module.exports = {
+    google : {
+        clientId : '456375033128-8in1opc1cju7adtqnh6vlgq6cpdoi3pc.apps.googleusercontent.com',
+        clientSecret : 'yCEAezYQlJDrifRhG4L6aIs3',
+        redirectUrl : 'http://localhost:3000/oauth2callback'
+    }
+};;var azure = require('azure-storage');
 var WeighIn = require('../../domain/weighin');
 var tableSvc = azure.createTableService();
 var exports = module.exports;
@@ -168,11 +179,47 @@ router.put('/:userId', function(req, res) {
 module.exports = router;
 ;var express = require('express');
 var router = express.Router();
+var google = require('googleapis');
+var plus = google.plus('v1');
+var OAuth2 = google.auth.OAuth2;
+var conf = require('../conf');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
+   res.json({result: 'wacca'});
 });
+
+router.post('/login', function(req, res) {
+    var oauth2Client = new OAuth2(conf.google.clientId, conf.google.clientSecret, conf.google.redirectUrl);
+    oauth2Client.getToken(req.body.authCode, function(err, tokens) {
+        // Now tokens contains an access_token and an optional refresh_token. Save them.
+        if(!err) {
+            oauth2Client.setCredentials(tokens);
+
+            plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, response) {
+                if(!err) {
+                    res.json({profile : response});
+                }
+            });
+        }
+    });
+});
+
+module.exports = router;
+;var express = require('express');
+var router = express.Router();
+var users = require('./users');
+var weighIns = require('./api/weighIn');
+var auth = require('./auth');
+
+router.use('/users', users);
+router.use('/api/weighIns', weighIns);
+router.use('/auth', auth);
+/* GET home page. */
+router.get('/', function(req, res) {
+    res.render('index', { title: 'Express', csrfToken: req.csrfToken() });
+});
+
 
 module.exports = router;
 ;var express = require('express');

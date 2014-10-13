@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cookieSession = require('cookie-session');
+var csrf = require('csurf');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
-var weighIns = require('./routes/api/weighIn');
 
 var app = express();
 
@@ -21,11 +21,16 @@ app.use(logger('dev'));
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+// store session state in browser cookie
+app.use(cookieSession({
+    keys: ['iwal1984', 'kyh@$8615']
+}));
+app.use(csrf());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', routes);
-app.use('/users', users);
-app.use('/api/weighIns', weighIns);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
