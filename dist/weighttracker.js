@@ -69,8 +69,87 @@ module.exports = app;
     google : {
         clientId : '456375033128-8in1opc1cju7adtqnh6vlgq6cpdoi3pc.apps.googleusercontent.com',
         clientSecret : 'yCEAezYQlJDrifRhG4L6aIs3',
-        redirectUrl : 'http://localhost:3000/oauth2callback'
+        redirectUrl : 'postmessage'
     }
+};;var azure = require('azure-storage');
+var tableSvc = azure.createTableService();
+var exports = module.exports;
+
+function UserService() {
+    tableSvc.createTableIfNotExists('userAuth', function(error, result, response) {
+        if(!error) {
+            // Table exists or created successfully
+
+        }
+    });
+}
+
+UserService.prototype.grantViewProfile = function(userId, allowedUserId) {
+    var entGen = azure.TableUtilities.entityGenerator;
+
+    var azureWeighIn = {
+        PartitionKey: entGen.String(userId),
+        RowKey: entGen.String(allowedUserId)
+    };
+
+    tableSvc.insertEntity('weight', azureWeighIn, function(error, result, response) {
+        if(!error) {
+
+        }
+    });
+};
+
+UserService.prototype.isAllowedToViewProfile = function(userId, allowedUserId, callback) {
+    var query = new azure.TableQuery()
+        .select(['result','date'])
+        .where('PartitionKey eq ? and RowKey eq ?', userId, allowedUserId);
+
+    tableSvc.queryEntities('userAuth', query, null, function(error, result, response) {
+        if(!error) {
+            callback({
+                error: false,
+                result: result.entries.length > 0
+            });
+        }
+        else {
+            callback({
+                error: true,
+                msg: 'Error querying'
+            });
+        }
+    });
+};
+
+UserService.prototype.getSharedProfiles = function(userId, callback) {
+    var query = new azure.TableQuery()
+        .select(['result','date'])
+        .where('PartitionKey eq ?', userId);
+
+    tableSvc.queryEntities('userAuth', query, null, function(error, result, response) {
+        if(!error) {
+            var resultList = [];
+
+            for(var i = 0; i < result.entries.length; i++) {
+                var obj = result.entries[i];
+                resultList.push(obj.RowKey._);
+            }
+
+            callback({
+                error: false,
+                result: resultList
+            });
+        }
+        else {
+            callback({
+                error: true,
+                msg: 'Error querying'
+            });
+        }
+    });
+};
+
+exports.createUserService = function() {
+    return new UserService();
 };;var azure = require('azure-storage');
 var WeighIn = require('../../domain/weighin');
 var tableSvc = azure.createTableService();
@@ -154,25 +233,64 @@ WeighIn.prototype = {
 
 module.exports = WeighIn;;var express = require('express');
 var router = express.Router();
-var data = require('../../data/azure/weight').createWeighInService();
-var WeighIn = require('../../domain/weighin');
+var weighIns = require('./weighIn');
+var users = require('./users');
 
-router.get('/', function(req, res) {
-    res.json({message: 'no direct services available'});
+router.use('/weighIns', weighIns);
+router.use('/users', users);
+
+module.exports = router;
+;var express = require('express');
+var router = express.Router();
+var userData = require('../../data/azure/users');
+
+/* GET users listing. */
+router.use('/:userId', function(req, res, next) {
+    if (typeof req.session.userId !== 'undefined' && req.session.userId == req.params.userId) {
+        next();
+    } else {
+        req.session.error = 'Access denied!';
+        var err = new Error('Access denied!');
+        err.status = 401;
+        next(err);
+    }
 });
 
 router.get('/:userId', function(req, res) {
-    data.getWeighInsForUser(req.params.userId, function(result) {
+    var userService = userData.createUserService();
+    userService.getSharedProfiles(req.params.userId, function(result) {
+       res.json(result);
+    });
+});
+
+module.exports = router;
+;var express = require('express');
+var router = express.Router();
+var data = require('../../data/azure/weight').createWeighInService();
+var WeighIn = require('../../domain/weighin');
+
+router.use(function(req, res, next) {
+    if (typeof req.session.userId !== 'undefined' && req.session.userId) {
+        next();
+    } else {
+        req.session.error = 'Access denied!';
+        var err = new Error('Access denied!');
+        err.status = 404;
+        next(err);
+    }
+});
+
+router.get('/', function(req, res) {
+    data.getWeighInsForUser(req.session.userId, function(result) {
         res.json({
-            message: 'Weigh Ins for ' + req.params.userId,
             data: result
         });
     });
 });
 
-router.put('/:userId', function(req, res) {
+router.post('/', function(req, res) {
     var weighIn = req.body;
-    data.insertWeighIn(req.params.userId, weighIn);
+    data.insertWeighIn(req.session.userId, weighIn);
     res.json({message: 'Weigh-In Captured'});
 });
 
@@ -183,6 +301,7 @@ var google = require('googleapis');
 var plus = google.plus('v1');
 var OAuth2 = google.auth.OAuth2;
 var conf = require('../conf');
+var userStore = require('../data/azure/users');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -198,7 +317,17 @@ router.post('/login', function(req, res) {
 
             plus.people.get({ userId: 'me', auth: oauth2Client }, function(err, response) {
                 if(!err) {
+                    req.session.userId = response.id;
                     res.json({profile : response});
+
+                    // Check if user can view their own data
+                    var userService = userStore.createUserService();
+                    userService.isAllowedToViewProfile(response.id, response.id, function(result) {
+                        // if not, enable them
+                        if(result.error === false && result.result === true) {
+                            userService.grantViewProfile(response.id, response.id);
+                        }
+                    });
                 }
             });
         }
@@ -208,26 +337,15 @@ router.post('/login', function(req, res) {
 module.exports = router;
 ;var express = require('express');
 var router = express.Router();
-var users = require('./users');
-var weighIns = require('./api/weighIn');
+var api = require('./api');
 var auth = require('./auth');
 
-router.use('/users', users);
-router.use('/api/weighIns', weighIns);
+router.use('/api', api);
 router.use('/auth', auth);
+
 /* GET home page. */
 router.get('/', function(req, res) {
     res.render('index', { title: 'Express', csrfToken: req.csrfToken() });
-});
-
-
-module.exports = router;
-;var express = require('express');
-var router = express.Router();
-
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.send('respond with a resource');
 });
 
 module.exports = router;

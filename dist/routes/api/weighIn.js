@@ -3,22 +3,28 @@ var router = express.Router();
 var data = require('../../data/azure/weight').createWeighInService();
 var WeighIn = require('../../domain/weighin');
 
-router.get('/', function(req, res) {
-    res.json({message: 'no direct services available'});
+router.use(function(req, res, next) {
+    if (typeof req.session.userId !== 'undefined' && req.session.userId) {
+        next();
+    } else {
+        req.session.error = 'Access denied!';
+        var err = new Error('Access denied!');
+        err.status = 404;
+        next(err);
+    }
 });
 
-router.get('/:userId', function(req, res) {
-    data.getWeighInsForUser(req.params.userId, function(result) {
+router.get('/', function(req, res) {
+    data.getWeighInsForUser(req.session.userId, function(result) {
         res.json({
-            message: 'Weigh Ins for ' + req.params.userId,
             data: result
         });
     });
 });
 
-router.put('/:userId', function(req, res) {
+router.post('/', function(req, res) {
     var weighIn = req.body;
-    data.insertWeighIn(req.params.userId, weighIn);
+    data.insertWeighIn(req.session.userId, weighIn);
     res.json({message: 'Weigh-In Captured'});
 });
 

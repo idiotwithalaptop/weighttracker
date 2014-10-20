@@ -21,7 +21,7 @@
             data-callback="signInCallback">
       </span>
     </div>
-    <div id="result"></div>
+    <div id="results"></div>
     <script>
         function signInCallback(authResult) {
             if (authResult['code']) {
@@ -32,6 +32,7 @@
                 // Send the code to the server
                 $.ajax({
                     type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
                     url: 'auth/login',
                     success: function(result) {
                         // Handle or verify the server response if necessary.
@@ -47,7 +48,7 @@
                     },
                     processData: false,
                     dataType: 'json',
-                    data: {_csrf: '<%= csrfToken %>', authCode: authResult['code'] }
+                    data: JSON.stringify({_csrf: '<%= csrfToken %>', authCode: authResult['code'] })
                 });
             } else if (authResult['error']) {
                 // There was an error.

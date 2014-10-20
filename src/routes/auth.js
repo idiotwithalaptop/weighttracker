@@ -4,6 +4,7 @@ var google = require('googleapis');
 var plus = google.plus('v1');
 var OAuth2 = google.auth.OAuth2;
 var conf = require('../conf');
+var userStore = require('../data/azure/users');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -21,6 +22,15 @@ router.post('/login', function(req, res) {
                 if(!err) {
                     req.session.userId = response.id;
                     res.json({profile : response});
+
+                    // Check if user can view their own data
+                    var userService = userStore.createUserService();
+                    userService.isAllowedToViewProfile(response.id, response.id, function(result) {
+                        // if not, enable them
+                        if(result.error === false && result.result === true) {
+                            userService.grantViewProfile(response.id, response.id);
+                        }
+                    });
                 }
             });
         }
