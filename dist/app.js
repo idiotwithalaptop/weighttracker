@@ -27,8 +27,12 @@ app.use(cookieSession({
 }));
 app.use(csrf());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res, next) {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    next();
+});
 
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 

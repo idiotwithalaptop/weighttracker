@@ -2,37 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d16cff9c-c1e3-402f-bee7-6c122ff10a75" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/Material-Design-Icons.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/Material-Design-Icons.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/Material-Design-Icons.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/Material-Design.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/Material-Design.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/Material-Design.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/LICENSE.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/Material-Design-Icons.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/fonts/Material-Design.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/javascripts/services/api.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/javascripts/app.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/javascripts/controllers/master.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/stylesheets/material/material-wfont.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/stylesheets/material/material-wfont.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/stylesheets/material/material.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/stylesheets/material/material.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/javascripts/material/material.min.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/partials/progress.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/javascripts/controllers/progress.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/stylesheets/material/ripples.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/stylesheets/material/ripples.min.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/public/javascripts/material/ripples.min.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/dist/public/html/index.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/public/html/index.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gruntfile.js" afterPath="$PROJECT_DIR$/Gruntfile.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app.js" afterPath="$PROJECT_DIR$/src/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/views/index.ejs" afterPath="$PROJECT_DIR$/dist/views/index.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/index.ejs" afterPath="$PROJECT_DIR$/src/views/index.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/public/stylesheets/style.css" afterPath="$PROJECT_DIR$/src/public/stylesheets/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/weighttracker.min.js" afterPath="$PROJECT_DIR$/dist/weighttracker.min.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/public/javascripts/controllers/master.js" afterPath="$PROJECT_DIR$/src/public/javascripts/controllers/master.js" />
     </list>
     <ignored path="weighttracker.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="master.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="master.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/public/javascripts/controllers/master.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1590">
-              <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.26061776" vertical-offset="0" max-vertical-offset="1590">
+              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
               <folding>
                 <element signature="e#0#43#0" expanded="false" />
               </folding>
@@ -107,10 +77,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/public/stylesheets/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.31853282" vertical-offset="0" max-vertical-offset="518">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
               <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
               <folding />
             </state>
@@ -149,9 +119,9 @@
         <option value="$PROJECT_DIR$/src/public/javascripts/services/api.js" />
         <option value="$PROJECT_DIR$/src/public/javascripts/app.js" />
         <option value="$PROJECT_DIR$/src/app.js" />
-        <option value="$PROJECT_DIR$/src/public/javascripts/controllers/master.js" />
         <option value="$PROJECT_DIR$/src/views/index.ejs" />
         <option value="$PROJECT_DIR$/src/public/stylesheets/style.css" />
+        <option value="$PROJECT_DIR$/src/public/javascripts/controllers/master.js" />
       </list>
     </option>
   </component>
@@ -741,12 +711,12 @@
       <workItem from="1413196037248" duration="1889000" />
       <workItem from="1413198329961" duration="5626000" />
       <workItem from="1413796945583" duration="4236000" />
-      <workItem from="1413801645966" duration="14534000" />
+      <workItem from="1413801645966" duration="14729000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42364000" />
+    <option name="totallyTimeSpent" value="42559000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1920" height="997" extended-state="6" />
@@ -1190,16 +1160,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/public/javascripts/controllers/master.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1590">
-          <caret line="9" column="65" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#43#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/idea.jar!/resources/html5-schema/html5/block.rnc">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33204633" vertical-offset="728" max-vertical-offset="3780">
@@ -1218,9 +1178,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/public/stylesheets/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31853282" vertical-offset="0" max-vertical-offset="518">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
           <caret line="11" column="22" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/public/javascripts/controllers/master.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.26061776" vertical-offset="0" max-vertical-offset="1590">
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#43#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

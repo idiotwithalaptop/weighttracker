@@ -1,71 +1,117 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html ng-app="goldilocksApp">
+<head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="/stylesheets/material/ripples.min.css" />
-    <link rel="stylesheet" href="/stylesheets/material/material-wfont.min.css" />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
-    <script src="/javascripts/material/ripples.min.js"></script>
-    <script src="/javascripts/material/material.min.js"></script>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %>......WHEEEEEE</p>
-    <p>CSRF: <%= csrfToken %></p>
-    <div id="signinButton">
-      <span class="g-signin"
-            data-scope="https://www.googleapis.com/auth/plus.login"
-            data-clientid="456375033128-8in1opc1cju7adtqnh6vlgq6cpdoi3pc.apps.googleusercontent.com"
-            data-redirecturi="postmessage"
-            data-accesstype="offline"
-            data-cookiepolicy="single_host_origin"
-            data-callback="signInCallback">
-      </span>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/material/ripples.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/material/material-wfont.min.css"/>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <meta name="google-signin-clientid" content="456375033128-8in1opc1cju7adtqnh6vlgq6cpdoi3pc.apps.googleusercontent.com" />
+    <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login" />
+    <meta name="google-signin-requestvisibleactions" content="http://schema.org/AddAction" />
+    <meta name="google-signin-cookiepolicy" content="single_host_origin" />
+</head>
+<body>
+<div ng-controller="MasterCtrl">
+    <!--
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Project Goldilocks</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <span id="googleSignIn"  class="navbar-form navbar-right" ng-hide="username != null">
+                    <span id="signInButton">
+                    </span>
+                </span>
+                <div ng-hide="username == null" class="navbar-form navbar-right well">
+                    <img class="circle" src="{{ avatar }}" />
+                    {{ username }}
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="results"></div>
-    <script>
-        function signInCallback(authResult) {
-            if (authResult['code']) {
+    -->
 
-                // Hide the sign-in button now that the user is authorized, for example:
-                $('#signinButton').attr('style', 'display: none');
+    <div class="navbar navbar-default">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:void(0)">Project Goldilocks</a>
+        </div>
+        <div class="navbar-collapse collapse navbar-responsive-collapse">
+            <!--<ul class="nav navbar-nav">-->
+                <!--<li class="active"><a href="javascript:void(0)">Active</a></li>-->
+                <!--<li><a href="javascript:void(0)">Link</a></li>-->
+                <!--<li class="dropdown">-->
+                    <!--<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>-->
+                    <!--<ul class="dropdown-menu">-->
+                        <!--<li><a href="javascript:void(0)">Action</a></li>-->
+                        <!--<li><a href="javascript:void(0)">Another action</a></li>-->
+                        <!--<li><a href="javascript:void(0)">Something else here</a></li>-->
+                        <!--<li class="divider"></li>-->
+                        <!--<li class="dropdown-header">Dropdown header</li>-->
+                        <!--<li><a href="javascript:void(0)">Separated link</a></li>-->
+                        <!--<li><a href="javascript:void(0)">One more separated link</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+            <!--</ul>-->
+            <ul class="nav navbar-nav navbar-right">
+                <li id="googleSignIn" ng-hide="username != null">
+                    <span id="signInButton">
+                    </span>
+                </li>
+                <li ng-hide="username == null" class="login">
 
-                // Send the code to the server
-                $.ajax({
-                    type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-                    url: 'auth/login',
-                    success: function(result) {
-                        // Handle or verify the server response if necessary.
+                        <img class="circle" src="{{ avatar }}" />
+                        {{ username }}
 
-                        // Prints the list of people that the user has allowed the app to know
-                        // to the console.
-                        console.log(result);
-                        if (result['profile']){
-                            $('#results').html('Hello ' + result['profile']['displayName'] + '. You successfully made a server side call to people.get and people.list');
-                        } else {
-                            $('#results').html('Failed to make a server-side call. Check your configuration and console.');
-                        }
-                    },
-                    processData: false,
-                    dataType: 'json',
-                    data: JSON.stringify({_csrf: '<%= csrfToken %>', authCode: authResult['code'] })
-                });
-            } else if (authResult['error']) {
-                // There was an error.
-                // Possible error codes:
-                //   "access_denied" - User denied access to your app
-                //   "immediate_failed" - Could not automatially log in the user
-                // console.log('There was an error: ' + authResult['error']);
-            }
-        }
-    </script>
-  </body>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <div ng-view>
+        </div>
+        <div class="container">
+            <h1><%= title %></h1>
+
+            <p>Welcome to <%= title %>......WHEEEEEE</p>
+
+            <p>CSRF: <%= csrfToken %></p>
+
+            <div id="results">{{ username }}</div>
+        </div>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.js"></script>
+<script>// <![CDATA[
+    (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/client:plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+    // ]]></script>
+<script src="/javascripts/material/ripples.min.js"></script>
+<script src="/javascripts/material/material.min.js"></script>
+
+<script src="/javascripts/app.js"></script>
+<script src="/javascripts/controllers/master.js"></script>
+<script src="/javascripts/controllers/progress.js"></script>
+<script src="/javascripts/services/api.js"></script>
+</body>
 </html>
