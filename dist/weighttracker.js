@@ -238,62 +238,41 @@ WeighIn.prototype = {
 module.exports = WeighIn;;var goldilocksApp = angular.module('goldilocksApp', [
     'ngRoute',
     'ngResource',
+    'highcharts-ng',
+    'ui.bootstrap',
     'goldilocksControllers'
 ]);
 
 goldilocksApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider
+        .when('/', {
+            templateUrl: 'partials/home.html'
+        })
         .when('/progress', {
-            templateUrl: 'partials/progress.html',
-            controller: 'ProgressCtrl'
+            templateUrl: 'partials/progress.html'
         })
         .otherwise({
-            redirectTo: '/progress'
+            redirectTo: '/'
         });
 }]);
 
 var goldilocksControllers = angular.module('goldilocksControllers', []);;/**
  * Created by rbrown on 23/10/2014.
  */
-goldilocksControllers.controller('MasterCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
-    $scope.username = null;
-    $scope.avatar = null;
-
+goldilocksControllers.controller('HomeCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
     // When callback is received, we need to process authentication.
     $scope.signInCallback = function(authResult) {
         $http.post('/auth/login', {authCode: authResult.code})
             .success(function(result) {
                 if (result.profile) {
-                    $scope.username = result.profile.displayName;
-                    $scope.avatar = result.profile.image.url;
+                    $scope.$emit('login:success', {fullName: result.profile.displayName, avatarUrl: result.profile.image.url});
                 } else {
+                    $scope.$emit('login:fail');
                 }
             })
             .error(function() {
+                $scope.$emit('login:error');
             });
-        /*$.ajax({
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            url: 'auth/login',
-            success: function (result) {
-                // Handle or verify the server response if necessary.
-
-                // Prints the list of people that the user has allowed the app to know
-                // to the console.
-                console.log(result);
-                $scope.apply(function() {
-                    if (result['profile']) {
-                       $scope.username = result['profile']['displayName'];
-                    } else {
-                        $scope.username = 'Authentication Failed';
-                    }
-                });
-
-            },
-            processData: false,
-            dataType: 'json',
-            data: JSON.stringify({_csrf: '<%= csrfToken %>', authCode: authResult['code'] })
-        });*/
     };
 
     // Render the sign in button.
@@ -318,51 +297,218 @@ goldilocksControllers.controller('MasterCtrl', ['$scope', '$http', '$timeout', f
     $scope.start();
 }]);
 /*
-function signInCallback(authResult) {
-    if (authResult['code']) {
+ function signInCallback(authResult) {
+ if (authResult['code']) {
 
-        // Hide the sign-in button now that the user is authorized, for example:
-        $('#signinButton').attr('style', 'display: none');
+ // Hide the sign-in button now that the user is authorized, for example:
+ $('#signinButton').attr('style', 'display: none');
 
-        // Send the code to the server
-        $.ajax({
-            type: 'POST',
-            contentType: 'application/json; charset=utf-8',
-            url: 'auth/login',
-            success: function (result) {
-                // Handle or verify the server response if necessary.
+ // Send the code to the server
+ $.ajax({
+ type: 'POST',
+ contentType: 'application/json; charset=utf-8',
+ url: 'auth/login',
+ success: function (result) {
+ // Handle or verify the server response if necessary.
 
-                // Prints the list of people that the user has allowed the app to know
-                // to the console.
-                console.log(result);
-                if (result['profile']) {
-                    $('#results').html('Hello ' + result['profile']['displayName'] + '. You successfully made a server side call to people.get and people.list');
-                } else {
-                    $('#results').html('Failed to make a server-side call. Check your configuration and console.');
-                }
-            },
-            processData: false,
-            dataType: 'json',
-            data: JSON.stringify({_csrf: '<%= csrfToken %>', authCode: authResult['code'] })
-        });
-    } else if (authResult['error']) {
-        // There was an error.
-        // Possible error codes:
-        //   "access_denied" - User denied access to your app
-        //   "immediate_failed" - Could not automatially log in the user
-        // console.log('There was an error: ' + authResult['error']);
-    }
-}
-*/
+ // Prints the list of people that the user has allowed the app to know
+ // to the console.
+ console.log(result);
+ if (result['profile']) {
+ $('#results').html('Hello ' + result['profile']['displayName'] + '. You successfully made a server side call to people.get and people.list');
+ } else {
+ $('#results').html('Failed to make a server-side call. Check your configuration and console.');
+ }
+ },
+ processData: false,
+ dataType: 'json',
+ data: JSON.stringify({_csrf: '<%= csrfToken %>', authCode: authResult['code'] })
+ });
+ } else if (authResult['error']) {
+ // There was an error.
+ // Possible error codes:
+ //   "access_denied" - User denied access to your app
+ //   "immediate_failed" - Could not automatially log in the user
+ // console.log('There was an error: ' + authResult['error']);
+ }
+ }
+ */
+
 ;/**
  * Created by rbrown on 23/10/2014.
  */
-goldilocksControllers.controller('ProgressCtrl', ['$scope', '$http', 'WeighIns', function ($scope, $http, WeighIns) {
-    $scope.progress = WeighIns.query();
-}]);;goldilocksApp.factory('WeighIns', ['$resource', function($resource){
-    return $resource('/api/weighIns', {}, {
-        query: {method:'GET', isArray:false}
+goldilocksControllers.controller('MasterCtrl', ['$scope', '$location', '$log', function ($scope, $location, $log) {
+    $scope.username = null;
+    $scope.avatar = null;
+    $scope.loginStatus = null;
+
+    $scope.$on('login:success', function(event, result) {
+        $scope.username = result.fullName;
+        $scope.avatar = result.avatarUrl;
+        $log.debug('Login Successful');
+        $location.path('/progress');
     });
+    $scope.$on('login:fail', function(event, result) {
+        $scope.loginStatus = 'failed';
+        $log.debug('Login Failed');
+    });
+    $scope.$on('login:error', function(event, result) {
+        $scope.loginStatus = 'Login Error';
+        $log.debug('Login Error');
+    });
+}]);;/**
+ * Created by rbrown on 23/10/2014.
+ */
+goldilocksControllers.controller('ProgressCtrl', ['$scope', '$modal', '$timeout', 'WeighIns', function ($scope, $modal, $timeout, WeighIns) {
+    $scope.progress = null;
+    $scope.opened = true;
+    $scope.dt = new Date();
+    $scope.minWeight = null;
+
+    $scope.update = function() {
+        $.snackbar({content: "Loading your progress..."});
+        WeighIns.getWeighIns(null, $scope.onSuccess, $scope.onFail);
+    };
+
+    $scope.onSuccess = function(data) {
+        $.snackbar({content: "Done"});
+        $scope.progress = data.data;
+        var array = [];
+        for(var i = 0; i < data.data.length; i++) {
+            var item = data.data[i];
+            var weight = parseFloat(item.result);
+            array.push([Date.parse(item.date), weight]);
+            if($scope.minWeight === null || weight < $scope.minWeight) {
+                $scope.minWeight = weight;
+            }
+        }
+
+        $scope.chartConfig.series = [{
+            name: 'Weight History',
+            data: array
+        }];
+
+        $scope.chartConfig.yAxis.min = $scope.minWeight;
+    };
+
+    $scope.onFail = function(data) {
+        $.snackbar({content: "Progress Loading failed"});
+        $scope.status = 'Fail';
+    };
+
+    $scope.start = function() {
+        $scope.update();
+    };
+
+    $scope.start();
+
+    $scope.chartConfig = {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: ''
+        },
+        xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+                month: '%e. %b',
+                year: '%b'
+            },
+            title: {
+                text: 'Date'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Weight (kg)'
+            },
+            min: 0
+        },
+
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.y}</b><br/>',
+            valueSuffix: ' cm',
+            shared: true
+        }
+
+
+    };
+
+    $scope.openAddModal = function () {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'addModal.html',
+            controller: 'AddModalCtrl'
+        });
+
+        modalInstance.result.then(function (result) {
+            $.snackbar({content: "Saving ..."});
+            WeighIns.saveWeighIn(result, $scope.saveSuccess, $scope.saveError);
+        }, function () {
+        });
+    };
+
+    $scope.saveSuccess = function() {
+        $.snackbar({content: "Done."});
+        $timeout($scope.update, 2000);
+    };
+
+    $scope.saveError = function() {
+        $.snackbar({content: "Error saving."});
+    };
+}]);
+
+
+goldilocksControllers.controller('AddModalCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+    $scope.today = new Date();
+    $scope.dt = $scope.today;
+    $scope.weight = null;
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    $scope.open = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope.opened = true;
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        showWeeks: false,
+        maxDate: $scope.today
+    };
+
+    $scope.format = 'dd/MM/yyyy';
+
+    $scope.submit = function () {
+        $modalInstance.close({result: $scope.weight, date: $scope.dt.toISOString()});
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+}]);
+;goldilocksApp.service('WeighIns', ['$http', function($http){
+    this.getWeighIns = function(userId, successCallback, errorCallback) {
+        var url = '/api/weighIns';
+        if(typeof userId !== 'undefined' && userId) {
+            url += '/' + userId;
+        }
+        $http.get(url)
+            .success(successCallback)
+            .error(errorCallback);
+    };
+
+    this.saveWeighIn = function(weighInObj, successCallback, errorCallback) {
+        var url = '/api/weighIns';
+        $http.post(url, weighInObj)
+            .success(successCallback)
+            .error(errorCallback);
+    };
 }]);
 ;var express = require('express');
 var router = express.Router();
@@ -416,7 +562,9 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res) {
     data.getWeighInsForUser(req.session.userId, function(result) {
         res.json({
-            data: result
+            data: result.result.sort(function(a, b) {
+                return a.date.getTime() - b.date.getTime();
+            })
         });
     });
 });

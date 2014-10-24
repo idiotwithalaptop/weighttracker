@@ -20,3 +20,12 @@ img.circle {
 .navbar, .navbar-default, .navbar-primary {
     background-image: none;
 }
+.clickable {
+    cursor: pointer;
+}
+
+.btn-default,
+.btn-danger,
+.btn-primary {
+    background-image: none;
+}

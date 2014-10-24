@@ -1,3 +1,54 @@
-<div class="container">
-    <h1>GO GO GO</h1>
+<div class="container" ng-controller="ProgressCtrl">
+    <div class="row" ng-show="progress != null">
+        <div class="col-md-9 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <highchart id="chart1" config="chartConfig" class="span9" ></highchart>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-12">
+            <div class="panel panel-default withripple clickable" ng-click="openAddModal()">
+                <div class="panel-body">
+                    <i class="mdi-content-add"></i><span> Add new weigh-in</span>
+
+                </div>
+                <div class="ripple-wrapper"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <script type="text/ng-template" id="addModal.html">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Add new weigh-in</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="inputWeight" class="col-lg-2 control-label">Weight (kgs)</label>
+                                    <div class="col-lg-10">
+                                        <input type="number" ng-required="true" class="form-control" id="inputWeight" placeholder="Weight (kgs)" ng-model="weight">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDate" class="col-lg-2 control-label"></label>
+                                    <div class="col-lg-10">
+                                        <input id="inputDate" type="text" class="form-control" ng-click="open($event)"  datepicker-popup="{{format}}" ng-model="dt" is-open="opened" max-date="today" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="cancel()">Close</button>
+                        <button type="button" class="btn btn-primary" ng-click="submit()">Save changes</button>
+                    </div>
+
+    </script>
+
+
 </div>

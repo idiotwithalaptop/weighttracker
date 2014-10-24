@@ -17,7 +17,9 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res) {
     data.getWeighInsForUser(req.session.userId, function(result) {
         res.json({
-            data: result
+            data: result.result.sort(function(a, b) {
+                return a.date.getTime() - b.date.getTime();
+            })
         });
     });
 });

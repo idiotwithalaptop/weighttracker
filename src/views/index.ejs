@@ -5,7 +5,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/stylesheets/material/ripples.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/material/snackbar.min.css"/>
     <link rel="stylesheet" href="/stylesheets/material/material-wfont.min.css"/>
+
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <meta name="google-signin-clientid" content="456375033128-8in1opc1cju7adtqnh6vlgq6cpdoi3pc.apps.googleusercontent.com" />
     <meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login" />
@@ -67,10 +69,6 @@
                 <!--</li>-->
             <!--</ul>-->
             <ul class="nav navbar-nav navbar-right">
-                <li id="googleSignIn" ng-hide="username != null">
-                    <span id="signInButton">
-                    </span>
-                </li>
                 <li ng-hide="username == null" class="login">
 
                         <img class="circle" src="{{ avatar }}" />
@@ -80,18 +78,7 @@
             </ul>
         </div>
     </div>
-    <div class="jumbotron">
-        <div ng-view>
-        </div>
-        <div class="container">
-            <h1><%= title %></h1>
-
-            <p>Welcome to <%= title %>......WHEEEEEE</p>
-
-            <p>CSRF: <%= csrfToken %></p>
-
-            <div id="results">{{ username }}</div>
-        </div>
+    <div ng-view>
     </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -99,6 +86,9 @@
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.js"></script>
+<script src="http://code.highcharts.com/stock/highstock.src.js"></script>
+<script src="/javascripts/material/highcharts-ng.min.js"></script>
+<script src="/javascripts/material/ui-bootstrap-tpls-0.11.2.min.js"></script>
 <script>// <![CDATA[
     (function() {
         var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -108,9 +98,11 @@
     // ]]></script>
 <script src="/javascripts/material/ripples.min.js"></script>
 <script src="/javascripts/material/material.min.js"></script>
+<script src="/javascripts/material/snackbar.min.js"></script>
 
 <script src="/javascripts/app.js"></script>
 <script src="/javascripts/controllers/master.js"></script>
+<script src="/javascripts/controllers/home.js"></script>
 <script src="/javascripts/controllers/progress.js"></script>
 <script src="/javascripts/services/api.js"></script>
 </body>
